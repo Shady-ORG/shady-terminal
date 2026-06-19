@@ -1,0 +1,67 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Shady Expressionist Mark</title>
+  <desc id="desc">A dark expressionist S-shaped figure with sparse Shady green accents.</desc>
+  <defs>
+    <radialGradient id="bg" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 498) rotate(90) scale(550)">
+      <stop offset="0" stop-color="#0B0D0E"/>
+      <stop offset="0.58" stop-color="#030405"/>
+      <stop offset="1" stop-color="#000000"/>
+    </radialGradient>
+    <linearGradient id="figure" x1="226" y1="110" x2="798" y2="868" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22272A"/>
+      <stop offset="0.38" stop-color="#121619"/>
+      <stop offset="0.72" stop-color="#07090A"/>
+      <stop offset="1" stop-color="#1B1017"/>
+    </linearGradient>
+    <linearGradient id="inner" x1="272" y1="158" x2="742" y2="829" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#303438"/>
+      <stop offset="0.45" stop-color="#14181B"/>
+      <stop offset="1" stop-color="#080909"/>
+    </linearGradient>
+    <linearGradient id="green" x1="335" y1="205" x2="696" y2="747" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00FF78"/>
+      <stop offset="0.6" stop-color="#00C85B"/>
+      <stop offset="1" stop-color="#004D2B"/>
+    </linearGradient>
+    <filter id="deepShadow" x="97" y="58" width="846" height="908" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="34" dy="44" stdDeviation="0" flood-color="#000000" flood-opacity="0.9"/>
+      <feDropShadow dx="-20" dy="24" stdDeviation="24" flood-color="#000000" flood-opacity="0.78"/>
+    </filter>
+    <clipPath id="sClip">
+      <path d="M681 150C599 87 449 78 343 141C252 195 224 313 288 381C340 437 439 443 540 478C626 508 670 552 649 614C624 689 515 708 424 671C355 643 299 589 225 615C153 640 134 731 189 796C272 895 526 922 692 823C830 741 859 582 755 472C704 418 620 389 516 359C436 336 391 304 405 254C422 194 515 193 597 232C642 254 684 294 729 271C777 247 755 190 681 150Z"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <path d="M112 838C234 890 360 915 512 904C678 892 813 831 901 734" stroke="#050607" stroke-width="72" stroke-linecap="round" opacity="0.75"/>
+  <path d="M110 175C238 126 375 108 505 124C654 141 782 205 876 304" stroke="#090B0C" stroke-width="54" stroke-linecap="round" opacity="0.72"/>
+  <path d="M120 502H928" stroke="#060708" stroke-width="34" stroke-linecap="square" opacity="0.5"/>
+
+  <g filter="url(#deepShadow)">
+    <path d="M681 150C599 87 449 78 343 141C252 195 224 313 288 381C340 437 439 443 540 478C626 508 670 552 649 614C624 689 515 708 424 671C355 643 299 589 225 615C153 640 134 731 189 796C272 895 526 922 692 823C830 741 859 582 755 472C704 418 620 389 516 359C436 336 391 304 405 254C422 194 515 193 597 232C642 254 684 294 729 271C777 247 755 190 681 150Z" fill="url(#figure)" stroke="#31383B" stroke-width="10"/>
+  </g>
+
+  <g clip-path="url(#sClip)">
+    <path d="M295 162C410 105 552 124 676 191L624 246C544 208 436 196 400 250C374 291 411 330 529 360L707 406L780 494C675 457 539 428 421 385C294 339 252 257 295 162Z" fill="#2A2F32" opacity="0.85"/>
+    <path d="M218 631C314 592 371 667 467 694C562 720 663 696 706 616C723 704 661 793 544 818C414 846 263 807 201 746C164 710 171 660 218 631Z" fill="#111416" opacity="0.92"/>
+    <path d="M600 118C704 150 778 230 748 267C706 318 654 268 596 236L688 150L600 118Z" fill="#070707" opacity="0.68"/>
+    <path d="M750 472C831 566 812 711 692 823L650 672C689 639 692 584 654 541L750 472Z" fill="#060607" opacity="0.66"/>
+    <path d="M405 254C394 304 436 336 516 359L302 364C262 316 286 229 343 141L405 254Z" fill="#060707" opacity="0.58"/>
+    <path d="M394 676L238 610C306 592 358 643 424 671L394 676Z" fill="#292527" opacity="0.45"/>
+    <path d="M480 120L442 244L384 254L346 348L289 378L265 323L289 221L350 158L480 120Z" fill="#3A3E40" opacity="0.25"/>
+    <path d="M598 433L744 478L787 543L653 515L598 433Z" fill="#262B2E" opacity="0.38"/>
+  </g>
+
+  <path d="M360 214C452 171 565 185 666 239" stroke="url(#green)" stroke-width="19" stroke-linecap="round" opacity="0.58"/>
+  <path d="M222 742C309 820 506 846 653 766" stroke="#00FF78" stroke-width="13" stroke-linecap="round" opacity="0.42"/>
+  <path d="M588 443C668 468 718 499 746 540" stroke="#00FF78" stroke-width="11" stroke-linecap="round" opacity="0.28"/>
+  <path d="M292 384L396 376" stroke="#00FF78" stroke-width="9" stroke-linecap="round" opacity="0.34"/>
+
+  <path d="M206 198L322 154" stroke="#000000" stroke-width="38" stroke-linecap="square" opacity="0.7"/>
+  <path d="M734 340L856 276" stroke="#000000" stroke-width="44" stroke-linecap="square" opacity="0.78"/>
+  <path d="M125 600L238 574" stroke="#000000" stroke-width="48" stroke-linecap="square" opacity="0.82"/>
+  <path d="M656 844L794 762" stroke="#000000" stroke-width="42" stroke-linecap="square" opacity="0.76"/>
+
+  <circle cx="653" cy="246" r="12" fill="#00FF78" opacity="0.74"/>
+  <circle cx="260" cy="724" r="8" fill="#00FF78" opacity="0.5"/>
+</svg>

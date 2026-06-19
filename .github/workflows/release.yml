@@ -1,0 +1,71 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  distribution:
+    strategy:
+      matrix:
+        include:
+          - runner: macos-13
+            arch: x64
+          - runner: macos-15
+            arch: aarch64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+      - name: Test and build distribution
+        env:
+          SHADY_PTY_INTEGRATION: "true"
+        run: ./gradlew test installDist -PskipIntellijPlugin=true --no-daemon
+      - name: Package distribution
+        run: |
+          asset="shady-macos-${{ matrix.arch }}.tar.gz"
+          tar -C build/install -czf "$asset" shady
+          shasum -a 256 "$asset" > "$asset.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shady-macos-${{ matrix.arch }}
+          path: |
+            shady-macos-${{ matrix.arch }}.tar.gz
+            shady-macos-${{ matrix.arch }}.tar.gz.sha256
+
+  intellij-plugin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+      - name: Build IntelliJ plugin
+        run: ./gradlew -p intellij-plugin test buildPlugin --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shady-intellij-plugin
+          path: intellij-plugin/build/distributions/*.zip
+
+  publish:
+    needs: [distribution, intellij-plugin]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --generate-notes

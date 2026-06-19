@@ -1,0 +1,21 @@
+<idea-plugin>
+    <id>cli.shady.intellij</id>
+    <name>Shady Terminal</name>
+    <vendor>Shady CLI</vendor>
+    <description><![CDATA[
+        Opens the installed Shady shell inside IntelliJ's terminal tool window.
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.terminal</depends>
+
+    <actions>
+        <action
+            id="cli.shady.intellij.OpenShadyTerminal"
+            class="cli.shady.intellij.OpenShadyTerminalAction"
+            text="Open Shady Terminal"
+            description="Open Shady in the integrated terminal">
+            <add-to-group group-id="ToolsMenu" anchor="last" />
+        </action>
+    </actions>
+</idea-plugin>

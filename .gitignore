@@ -36,3 +36,4 @@ out/
 *.iml
 .DS_Store
 .shady-history.json
+.kiro/

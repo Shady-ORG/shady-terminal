@@ -1,0 +1,75 @@
+<svg width="2200" height="700" viewBox="0 0 2200 700" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Shady Expressionist Logo</title>
+  <desc id="desc">A dark Shady logo with an expressionist S-shaped figure and sparse green highlights.</desc>
+  <defs>
+    <radialGradient id="bg" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(520 350) rotate(90) scale(520 760)">
+      <stop offset="0" stop-color="#0B0D0E"/>
+      <stop offset="0.62" stop-color="#020303"/>
+      <stop offset="1" stop-color="#000000"/>
+    </radialGradient>
+    <linearGradient id="figure" x1="156" y1="82" x2="540" y2="604" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22272A"/>
+      <stop offset="0.38" stop-color="#121619"/>
+      <stop offset="0.72" stop-color="#07090A"/>
+      <stop offset="1" stop-color="#1B1017"/>
+    </linearGradient>
+    <linearGradient id="green" x1="230" y1="146" x2="482" y2="530" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00FF78"/>
+      <stop offset="0.65" stop-color="#00B955"/>
+      <stop offset="1" stop-color="#003E24"/>
+    </linearGradient>
+    <linearGradient id="word" x1="760" y1="170" x2="1780" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#30363A"/>
+      <stop offset="0.55" stop-color="#171B1E"/>
+      <stop offset="1" stop-color="#080A0B"/>
+    </linearGradient>
+    <filter id="deepShadow" x="54" y="26" width="610" height="650" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="22" dy="32" stdDeviation="0" flood-color="#000000" flood-opacity="0.9"/>
+      <feDropShadow dx="-12" dy="16" stdDeviation="18" flood-color="#000000" flood-opacity="0.78"/>
+    </filter>
+    <filter id="wordShadow" x="720" y="122" width="1380" height="420" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="18" dy="20" stdDeviation="0" flood-color="#000000" flood-opacity="0.90"/>
+      <feDropShadow dx="-8" dy="8" stdDeviation="16" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+    <clipPath id="sClip">
+      <path d="M495 103C439 60 335 54 263 97C201 134 182 214 226 261C262 300 330 304 399 328C458 348 488 378 474 421C457 472 382 485 320 459C273 440 235 403 184 421C135 438 122 500 160 544C216 612 390 630 504 562C598 506 618 397 547 322C512 285 454 266 383 246C328 230 298 209 307 174C319 133 383 132 439 159C470 174 499 202 529 186C562 169 545 130 495 103Z"/>
+    </clipPath>
+  </defs>
+
+  <rect width="2200" height="700" fill="#000000"/>
+  <rect x="0" y="0" width="720" height="700" fill="url(#bg)"/>
+  <path d="M766 108H2100" stroke="#050607" stroke-width="48" opacity="0.72"/>
+  <path d="M760 580H1995" stroke="#050607" stroke-width="58" opacity="0.78"/>
+  <path d="M780 470H1820" stroke="#070A0B" stroke-width="30" opacity="0.72"/>
+  <path d="M70 570C180 622 329 644 455 618C553 597 622 550 656 490" stroke="#050607" stroke-width="50" stroke-linecap="round" opacity="0.76"/>
+  <path d="M72 125C191 71 373 65 514 123" stroke="#07090A" stroke-width="44" stroke-linecap="round" opacity="0.72"/>
+
+  <g filter="url(#deepShadow)">
+    <path d="M495 103C439 60 335 54 263 97C201 134 182 214 226 261C262 300 330 304 399 328C458 348 488 378 474 421C457 472 382 485 320 459C273 440 235 403 184 421C135 438 122 500 160 544C216 612 390 630 504 562C598 506 618 397 547 322C512 285 454 266 383 246C328 230 298 209 307 174C319 133 383 132 439 159C470 174 499 202 529 186C562 169 545 130 495 103Z" fill="url(#figure)" stroke="#31383B" stroke-width="7"/>
+  </g>
+  <g clip-path="url(#sClip)">
+    <path d="M229 111C307 72 404 85 489 131L452 169C397 143 324 135 299 172C281 201 307 226 387 247L508 278L558 340C486 315 393 295 313 265C226 234 199 176 229 111Z" fill="#2A2F32" opacity="0.85"/>
+    <path d="M179 431C245 405 284 456 349 474C414 492 483 475 512 421C524 481 482 541 402 559C313 578 210 552 167 510C142 485 147 451 179 431Z" fill="#111416" opacity="0.92"/>
+    <path d="M440 80C510 102 561 157 540 182C512 217 475 183 436 161L499 103L440 80Z" fill="#070707" opacity="0.68"/>
+    <path d="M546 322C601 386 588 486 504 562L475 459C502 436 503 398 477 368L546 322Z" fill="#060607" opacity="0.66"/>
+    <path d="M307 174C299 208 328 230 383 246L236 249C208 217 225 157 263 97L307 174Z" fill="#060707" opacity="0.58"/>
+    <path d="M360 295L510 326L555 368L471 357L360 295Z" fill="#262B2E" opacity="0.38"/>
+  </g>
+  <path d="M276 147C340 117 417 128 486 165" stroke="url(#green)" stroke-width="13" stroke-linecap="round" opacity="0.55"/>
+  <path d="M162 507C222 561 358 579 459 524" stroke="#00FF78" stroke-width="8" stroke-linecap="round" opacity="0.38"/>
+  <path d="M411 305C466 322 500 344 520 372" stroke="#00FF78" stroke-width="7" stroke-linecap="round" opacity="0.28"/>
+  <path d="M204 263L276 257" stroke="#00FF78" stroke-width="6" stroke-linecap="round" opacity="0.32"/>
+  <path d="M138 136L223 104" stroke="#000000" stroke-width="27" stroke-linecap="square" opacity="0.72"/>
+  <path d="M535 236L618 193" stroke="#000000" stroke-width="31" stroke-linecap="square" opacity="0.78"/>
+  <path d="M83 410L181 393" stroke="#000000" stroke-width="34" stroke-linecap="square" opacity="0.82"/>
+  <circle cx="477" cy="166" r="7" fill="#00FF78" opacity="0.68"/>
+
+  <g filter="url(#wordShadow)">
+    <text x="760" y="410" font-family="Arial Black, Impact, Inter, Segoe UI, sans-serif" font-size="228" font-weight="900" letter-spacing="-10" fill="url(#word)" stroke="#343A3D" stroke-width="2">SHADY</text>
+  </g>
+  <path d="M780 438H1180" stroke="#00FF78" stroke-width="8" stroke-linecap="square" opacity="0.33"/>
+  <path d="M1220 438H1360" stroke="#00FF78" stroke-width="8" stroke-linecap="square" opacity="0.18"/>
+  <path d="M910 164L1018 164" stroke="#00FF78" stroke-width="7" stroke-linecap="square" opacity="0.24"/>
+  <path d="M1590 499H1985" stroke="#111719" stroke-width="22" stroke-linecap="square" opacity="0.82"/>
+  <text x="786" y="522" font-family="JetBrains Mono, SFMono-Regular, Consolas, monospace" font-size="32" font-weight="800" letter-spacing="6" fill="#20292B">EXPRESSIONIST TERMINAL WORKSPACE</text>
+</svg>

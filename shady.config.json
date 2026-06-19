@@ -1,0 +1,10 @@
+{
+    "terminal": {
+        "coloredOutput": true,
+        "usernameOverrideEnabled": false
+    },
+    "features": {
+        "stylesCommandEnabled": false,
+        "fuzzySearchEnabled": true
+    }
+}
