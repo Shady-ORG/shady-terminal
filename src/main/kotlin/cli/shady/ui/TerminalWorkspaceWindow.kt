@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.unit.dp
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -43,9 +45,6 @@ fun TerminalWorkspaceWindow(
     onInstallUpdate: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val activeTab = state.tabs.firstOrNull { it.id == state.activeTabId }
-    val activeRuntime = activeTab?.let { runtimeFor(it.id) }
-
     Surface(modifier = modifier.fillMaxSize(), color = ShadyPalette.TerminalBackground) {
         Column(Modifier.fillMaxSize()) {
             TerminalTabStrip(
@@ -73,26 +72,32 @@ fun TerminalWorkspaceWindow(
                     .fillMaxWidth()
                     .background(ShadyPalette.TerminalBackground),
             ) {
-                if (activeRuntime != null) {
-                    val fuzzyKeyListener = object : KeyAdapter() {
-                        override fun keyPressed(event: KeyEvent) {
-                            if (state.fuzzySearchEnabled && activeTab.isAtPrompt && event.isControlDown && event.keyCode == KeyEvent.VK_R) {
-                                event.consume()
-                                onOpenFuzzy()
+                state.tabs.forEach { tab ->
+                    val runtime = runtimeFor(tab.id)
+                    val isActive = tab.id == state.activeTabId
+                    if (runtime != null) {
+                        key(tab.id) {
+                            if (isActive) {
+                                val fuzzyKeyListener = object : KeyAdapter() {
+                                    override fun keyPressed(event: KeyEvent) {
+                                        if (state.fuzzySearchEnabled && tab.isAtPrompt && event.isControlDown && event.keyCode == KeyEvent.VK_R) {
+                                            event.consume()
+                                            onOpenFuzzy()
+                                        }
+                                    }
+                                }
+                                DisposableEffect(runtime, tab.isAtPrompt) {
+                                    runtime.addKeyListener(fuzzyKeyListener)
+                                    onDispose {
+                                        runtime.removeKeyListener(fuzzyKeyListener)
+                                    }
+                                }
                             }
+                            SwingPanel(
+                                factory = { runtime.component },
+                                modifier = if (isActive) Modifier.fillMaxSize() else Modifier.size(0.dp),
+                            )
                         }
-                    }
-                    DisposableEffect(activeRuntime, activeTab.isAtPrompt) {
-                        activeRuntime.addKeyListener(fuzzyKeyListener)
-                        onDispose {
-                            activeRuntime.removeKeyListener(fuzzyKeyListener)
-                        }
-                    }
-                    key(activeTab.id) {
-                        SwingPanel(
-                            factory = { activeRuntime.component },
-                            modifier = Modifier.fillMaxSize(),
-                        )
                     }
                 }
             }
