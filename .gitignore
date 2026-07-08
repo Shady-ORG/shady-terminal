@@ -32,6 +32,7 @@ replay_pid*
 # Internal 
 .gradle/
 .idea/
+.intellijPlatform/
 .kotlin/
 build/
 intellij-plugin/build/

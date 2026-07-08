@@ -1,5 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Locale
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
@@ -57,9 +58,46 @@ tasks.test {
     systemProperty("user.home", layout.buildDirectory.dir("test-home").get().asFile.absolutePath)
 }
 
+fun File.validPackagingJdk(): Boolean =
+    resolve("bin/java").canExecute() &&
+        resolve("bin/jlink").canExecute() &&
+        resolve("bin/jpackage").canExecute() &&
+        resolve("jmods/java.base.jmod").isFile
+
+fun macJavaHome(version: String): File? {
+    if (!System.getProperty("os.name").lowercase(Locale.ROOT).contains("mac")) return null
+    val process = runCatching {
+        ProcessBuilder("/usr/libexec/java_home", "-v", version, "-X")
+            .redirectError(ProcessBuilder.Redirect.DISCARD)
+            .start()
+    }.getOrNull() ?: return null
+    val output = process.inputStream.use { it.readBytes().toString(Charsets.UTF_8) }
+    if (process.waitFor() != 0) return null
+
+    return Regex("<key>JVMHomePath</key>\\s*<string>([^<]+)</string>")
+        .findAll(output)
+        .map { File(it.groupValues[1]) }
+        .firstOrNull(File::validPackagingJdk)
+}
+
+fun packagingJavaHome(): String {
+    val explicit = System.getenv("SHADY_PACKAGE_JAVA_HOME")
+        ?.takeIf(String::isNotBlank)
+        ?.let(::File)
+        ?.takeIf(File::validPackagingJdk)
+    if (explicit != null) return explicit.absolutePath
+
+    val macJdk21 = macJavaHome("21")
+    if (macJdk21 != null) return macJdk21.absolutePath
+
+    val current = File(System.getProperty("java.home"))
+    return current.absolutePath
+}
+
 compose.desktop {
     application {
         mainClass = "cli.shady.MainKt"
+        javaHome = packagingJavaHome()
         args("start")
         jvmArgs("--enable-native-access=ALL-UNNAMED")
 

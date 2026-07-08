@@ -26,8 +26,6 @@ jobs:
           java-version: "21"
           cache: gradle
       - name: Test and build distributions
-        env:
-          SHADY_PTY_INTEGRATION: "true"
         run: ./gradlew test installDist buildDMG -PskipIntellijPlugin=true --no-daemon
       - name: Package release assets
         run: |
