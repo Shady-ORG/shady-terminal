@@ -13,8 +13,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - runner: macos-13
-            arch: x64
           - runner: macos-15
             arch: aarch64
     runs-on: ${{ matrix.runner }}
