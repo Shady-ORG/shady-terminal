@@ -3,6 +3,7 @@ package cli.shady.app
 import cli.shady.commands.AliasNameDeriver
 import cli.shady.commands.AliasRepository
 import cli.shady.commands.CommandHistoryRepository
+import cli.shady.commands.GoDirRepository
 import cli.shady.commands.SuggestionEngine
 import cli.shady.commands.config.FeatureConfig
 import cli.shady.commands.config.SecurityConfig
@@ -83,15 +84,33 @@ class TerminalWorkspaceControllerTest {
         fixture.controller.close()
     }
 
+    @Test
+    fun `records directory visits only when a tab enters a directory`() = runTest {
+        val fixture = fixture(ShadyConfig())
+        val session = fixture.factory.sessions.single()
+        val child = Files.createDirectory(fixture.directory.resolve("project"))
+
+        session.emit(TerminalSessionEvent.PromptReady(fixture.directory.toString()))
+        session.emit(TerminalSessionEvent.PromptReady(fixture.directory.toString()))
+        session.emit(TerminalSessionEvent.PromptReady(child.toString()))
+
+        val entries = fixture.goDirs.allEntries().associateBy { it.path }
+        assertEquals(1, entries[fixture.directory.toAbsolutePath().normalize().toString()]?.count)
+        assertEquals(1, entries[child.toAbsolutePath().normalize().toString()]?.count)
+        fixture.controller.close()
+    }
+
     private fun kotlinx.coroutines.test.TestScope.fixture(config: ShadyConfig): Fixture {
         val directory = Files.createTempDirectory("shady-workspace")
         val aliases = AliasRepository(directory.resolve("aliases.json"))
         val history = CommandHistoryRepository()
+        val goDirs = GoDirRepository(directory.resolve("gdirs.json"))
         val factory = FakeTerminalSessionFactory()
         val controller = TerminalWorkspaceController(
             configProvider = { config },
             colorRulesProvider = { cli.shady.commands.config.ColorRules() },
             aliases = aliases,
+            goDirRepository = goDirs,
             historyRepository = history,
             suggestionEngine = SuggestionEngine(history, aliases, AliasNameDeriver()),
             workspaceRepository = WorkspaceStateRepository(directory.resolve("workspace.json")),
@@ -100,13 +119,14 @@ class TerminalWorkspaceControllerTest {
             initialDirectory = directory,
             sessionFactory = factory,
         )
-        return Fixture(controller, factory, directory)
+        return Fixture(controller, factory, directory, goDirs)
     }
 
     private data class Fixture(
         val controller: TerminalWorkspaceController,
         val factory: FakeTerminalSessionFactory,
         val directory: java.nio.file.Path,
+        val goDirs: GoDirRepository,
     )
 
     private class FakeTerminalSessionFactory : TerminalSessionFactory {

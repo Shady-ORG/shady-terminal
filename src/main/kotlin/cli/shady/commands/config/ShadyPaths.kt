@@ -10,6 +10,7 @@ data class ShadyPaths(
     val stateDirectory: Path,
     val workspaceState: Path,
     val updateState: Path,
+    val goDirs: Path,
 ) {
     companion object {
         fun system(
@@ -34,6 +35,7 @@ data class ShadyPaths(
                 stateDirectory = stateDirectory,
                 workspaceState = stateDirectory.resolve("workspace.json"),
                 updateState = stateDirectory.resolve("updates.json"),
+                goDirs = stateDirectory.resolve("gdirs.json"),
             )
         }
     }

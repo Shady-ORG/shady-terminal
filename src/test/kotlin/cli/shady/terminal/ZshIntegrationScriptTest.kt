@@ -17,8 +17,9 @@ class ZshIntegrationScriptTest {
         assertContains(script, "_shady_preexec")
         assertContains(script, "while [[ \"${'$'}input\" == 'shady shady '* ]]")
         assertContains(script, "BUFFER=\"${'$'}without_prefix\"")
-        assertContains(script, "start|help|alias|prehook")
+        assertContains(script, "start|help|alias|gdir|prehook")
         assertContains(script, "config|update)")
+        assertContains(script, "gdir()")
         assertContains(script, "a terminal session is already running")
     }
 
@@ -28,6 +29,7 @@ class ZshIntegrationScriptTest {
 
         assertContains(script, "autoload -Uz compinit")
         assertContains(script, "compdef _shady shady")
+        assertContains(script, "compdef _shady_gdir gdir")
         assertContains(script, "security.alwaysRequestSudo")
         assertContains(script, "_shady_cc")
         assertContains(script, "_arguments '*:argument:_files'")

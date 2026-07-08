@@ -3,6 +3,7 @@ package cli.shady.commands
 import cli.shady.commands.builtins.AliasCommand
 import cli.shady.commands.builtins.GitPrehookScripts
 import cli.shady.commands.builtins.ColorCommandsCommand
+import cli.shady.commands.builtins.GoDirCommand
 
 object CommandHelp {
     const val START_COMMAND_USAGE = "Emulator:\n" +
@@ -41,5 +42,6 @@ object CommandHelp {
         CONFIGURATION_USAGE + "\n\n" +
         ColorCommandsCommand.USAGE + "\n\n" +
         AliasCommand.USAGE + "\n\n" +
+        GoDirCommand.USAGE + "\n\n" +
         GitPrehookScripts.USAGE
 }

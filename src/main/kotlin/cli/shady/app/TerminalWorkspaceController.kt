@@ -3,6 +3,7 @@ package cli.shady.app
 import com.jediterm.terminal.ui.settings.SettingsProvider
 import cli.shady.commands.AliasRepository
 import cli.shady.commands.CommandHistoryRepository
+import cli.shady.commands.GoDirRepository
 import cli.shady.commands.SuggestionEngine
 import cli.shady.commands.config.ShadyConfig
 import cli.shady.commands.config.ColorRules
@@ -28,6 +29,7 @@ class TerminalWorkspaceController(
     private val configProvider: () -> ShadyConfig,
     private val colorRulesProvider: () -> ColorRules,
     private val aliases: AliasRepository,
+    private val goDirRepository: GoDirRepository,
     private val historyRepository: CommandHistoryRepository,
     private val suggestionEngine: SuggestionEngine,
     private val workspaceRepository: WorkspaceStateRepository,
@@ -39,6 +41,7 @@ class TerminalWorkspaceController(
     private val appConfig = configProvider()
     private val runtimes = linkedMapOf<String, TerminalSession>()
     private val currentCommands = mutableMapOf<String, String>()
+    private val recordedDirectories = mutableMapOf<String, String>()
     private val sudoRequested = AtomicBoolean(false)
     private val mutableState = MutableStateFlow(
         TerminalWorkspaceState(fuzzySearchEnabled = appConfig.features.fuzzySearchEnabled),
@@ -84,6 +87,7 @@ class TerminalWorkspaceController(
     fun closeTab(tabId: String) {
         runtimes.remove(tabId)?.close()
         currentCommands.remove(tabId)
+        recordedDirectories.remove(tabId)
         mutableState.update { state ->
             val index = state.tabs.indexOfFirst { it.id == tabId }
             val remaining = state.tabs.filterNot { it.id == tabId }
@@ -172,6 +176,7 @@ class TerminalWorkspaceController(
     private fun handleEvent(tabId: String, event: TerminalSessionEvent) {
         when (event) {
             is TerminalSessionEvent.PromptReady -> {
+                recordGoDirVisit(tabId, event.workingDirectory)
                 updateTab(tabId) {
                     it.copy(
                         workingDirectory = event.workingDirectory,
@@ -235,6 +240,15 @@ class TerminalWorkspaceController(
         mutableState.update { state ->
             state.copy(toolWindows = state.toolWindows.filterNot { it.id == window.id } + window)
         }
+    }
+
+    private fun recordGoDirVisit(tabId: String, workingDirectory: String) {
+        val directory = runCatching { Path.of(workingDirectory).toAbsolutePath().normalize() }.getOrNull()
+            ?: return
+        val storedPath = directory.toString()
+        if (recordedDirectories[tabId] == storedPath) return
+        recordedDirectories[tabId] = storedPath
+        runCatching { goDirRepository.recordVisit(directory) }
     }
 
     private fun updateTab(tabId: String, transform: (TerminalTabState) -> TerminalTabState) {

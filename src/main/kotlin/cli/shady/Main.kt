@@ -24,12 +24,14 @@ import cli.shady.commands.CommandHistoryRepository
 import cli.shady.commands.CommandRegistry
 import cli.shady.commands.CommandRequest
 import cli.shady.commands.GitPrehookScriptsRepository
+import cli.shady.commands.GoDirRepository
 import cli.shady.commands.SuggestionEngine
 import cli.shady.commands.builtins.AliasCommand
 import cli.shady.commands.builtins.ColorCommandsCommand
 import cli.shady.commands.builtins.ConfigCommand
 import cli.shady.commands.builtins.EmulatorOnlyCommand
 import cli.shady.commands.builtins.GitPrehookScripts
+import cli.shady.commands.builtins.GoDirCommand
 import cli.shady.commands.builtins.HelpCommand
 import cli.shady.commands.builtins.StylesCommand
 import cli.shady.commands.builtins.UpdateCommand
@@ -158,6 +160,7 @@ private fun shadyServices(projectRoot: Path): ShadyServices {
     val historyRepository = CommandHistoryRepository(
         historyFile = projectRoot.resolve(".shady-history.json"),
     )
+    val goDirRepository = GoDirRepository(paths.goDirs)
     val nameDeriver = AliasNameDeriver()
     val suggestionEngine = SuggestionEngine(
         historyRepository = historyRepository,
@@ -173,6 +176,7 @@ private fun shadyServices(projectRoot: Path): ShadyServices {
             HelpCommand(),
             EmulatorOnlyCommand(),
             AliasCommand(aliasRepository, suggestionEngine),
+            GoDirCommand(goDirRepository),
             GitPrehookScripts(
                 GitPrehookScriptsRepository(projectRoot.resolve("prehooks")),
             ),
@@ -186,6 +190,7 @@ private fun shadyServices(projectRoot: Path): ShadyServices {
     return ShadyServices(
         registry = registry,
         aliasRepository = aliasRepository,
+        goDirRepository = goDirRepository,
         historyRepository = historyRepository,
         suggestionEngine = suggestionEngine,
         configService = configService,
@@ -202,6 +207,7 @@ private fun runTerminalMode(services: ShadyServices) {
         configProvider = services.configService::load,
         colorRulesProvider = services.colorRules::load,
         aliases = services.aliasRepository,
+        goDirRepository = services.goDirRepository,
         historyRepository = services.historyRepository,
         suggestionEngine = services.suggestionEngine,
         workspaceRepository = WorkspaceStateRepository(services.paths.workspaceState),
@@ -307,6 +313,7 @@ private fun runTerminalMode(services: ShadyServices) {
 private data class ShadyServices(
     val registry: CommandRegistry,
     val aliasRepository: AliasRepository,
+    val goDirRepository: GoDirRepository,
     val historyRepository: CommandHistoryRepository,
     val suggestionEngine: SuggestionEngine,
     val configService: ShadyConfigService,

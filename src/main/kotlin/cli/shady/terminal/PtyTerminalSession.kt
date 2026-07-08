@@ -1,5 +1,6 @@
 package cli.shady.terminal
 
+import com.jediterm.terminal.CursorShape
 import com.jediterm.terminal.ui.JediTermWidget
 import com.jediterm.terminal.ui.settings.SettingsProvider
 import com.jediterm.core.util.TermSize
@@ -87,6 +88,7 @@ class PtyTerminalSession(
         )
         widget = onEdt {
             JediTermWidget(DEFAULT_COLUMNS, DEFAULT_ROWS, settingsProvider).also {
+                it.terminalPanel.setDefaultCursorShape(CursorShape.BLINK_BLOCK)
                 it.setTtyConnector(connector)
                 it.start()
             }
