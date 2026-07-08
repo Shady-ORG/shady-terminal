@@ -25,21 +25,44 @@ jobs:
           distribution: temurin
           java-version: "21"
           cache: gradle
-      - name: Test and build distribution
+      - name: Test and build distributions
         env:
           SHADY_PTY_INTEGRATION: "true"
-        run: ./gradlew test installDist -PskipIntellijPlugin=true --no-daemon
-      - name: Package distribution
+        run: ./gradlew test installDist buildDMG -PskipIntellijPlugin=true --no-daemon
+      - name: Package release assets
         run: |
-          asset="shady-macos-${{ matrix.arch }}.tar.gz"
-          tar -C build/install -czf "$asset" shady
-          shasum -a 256 "$asset" > "$asset.sha256"
+          set -euo pipefail
+
+          version="${GITHUB_REF_NAME#v}"
+          arch="${{ matrix.arch }}"
+          assets_dir="release-assets"
+          mkdir -p "$assets_dir"
+
+          cli_asset="shady-macos-${arch}.tar.gz"
+          versioned_cli_asset="shady-${version}-macos-${arch}.tar.gz"
+          tar -C build/install -czf "$assets_dir/$cli_asset" shady
+          cp "$assets_dir/$cli_asset" "$assets_dir/$versioned_cli_asset"
+
+          dmg_source="$(find build/compose/binaries/main/dmg -maxdepth 1 -name '*.dmg' -print -quit)"
+          if [[ -z "$dmg_source" ]]; then
+            printf 'No DMG was produced under build/compose/binaries/main/dmg.\n' >&2
+            exit 1
+          fi
+          dmg_asset="Shady-macos-${arch}.dmg"
+          versioned_dmg_asset="Shady-${version}-macos-${arch}.dmg"
+          cp "$dmg_source" "$assets_dir/$dmg_asset"
+          cp "$dmg_source" "$assets_dir/$versioned_dmg_asset"
+
+          (
+            cd "$assets_dir"
+            for asset in "$cli_asset" "$versioned_cli_asset" "$dmg_asset" "$versioned_dmg_asset"; do
+              shasum -a 256 "$asset" > "$asset.sha256"
+            done
+          )
       - uses: actions/upload-artifact@v4
         with:
           name: shady-macos-${{ matrix.arch }}
-          path: |
-            shady-macos-${{ matrix.arch }}.tar.gz
-            shady-macos-${{ matrix.arch }}.tar.gz.sha256
+          path: release-assets/*
 
   intellij-plugin:
     runs-on: ubuntu-latest
@@ -65,6 +88,12 @@ jobs:
         with:
           path: dist
           merge-multiple: true
+      - name: Generate checksum manifest
+        working-directory: dist
+        run: |
+          find . -maxdepth 1 -type f ! -name '*.sha256' ! -name 'checksums.txt' -printf '%f\n' \
+            | sort \
+            | xargs shasum -a 256 > checksums.txt
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
