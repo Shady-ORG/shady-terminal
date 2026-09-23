@@ -9,11 +9,15 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.terminal</depends>
 
+    <extensions defaultExtensionNs="org.jetbrains.plugins.terminal">
+        <openPredefinedTerminalProvider implementation="cli.shady.intellij.ShadyPredefinedTerminalActionProvider" />
+    </extensions>
+
     <actions>
         <action
             id="cli.shady.intellij.OpenShadyTerminal"
             class="cli.shady.intellij.OpenShadyTerminalAction"
-            text="Open Shady Terminal"
+            text="Shady"
             description="Open Shady in the integrated terminal">
             <add-to-group group-id="ToolsMenu" anchor="last" />
         </action>

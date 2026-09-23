@@ -145,9 +145,11 @@ scripts/install-dev.sh
 ## IntelliJ IDEA
 
 Das Modul `intellij-plugin` stellt die Aktion **Open Shady Terminal** bereit. Sie
-sucht `~/.local/bin/shady` beziehungsweise `PATH` und startet `shady --ide-shell`
-als normalen Tab im integrierten IDEA-Terminal. Es wird weder ein separates
-Compose-Fenster geöffnet noch die globale IDEA-Standardshell verändert.
+sucht `~/.local/bin/shady`, `PATH` oder eine installierte `Shady.app` und startet
+Shady als normalen Tab im integrierten IDEA-Terminal. Das App-Bundle wird über
+seine `Shady.cfg` gelesen, damit versionierte `shady-*.jar`-Dateien automatisch
+gefunden werden. Es wird weder ein separates Compose-Fenster geöffnet noch die
+globale IDEA-Standardshell verändert.
 
 ```bash
 ./gradlew -p intellij-plugin test buildPlugin

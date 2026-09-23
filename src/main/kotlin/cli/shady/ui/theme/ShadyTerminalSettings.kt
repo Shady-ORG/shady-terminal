@@ -11,6 +11,12 @@ class ShadyTerminalSettings : DefaultSettingsProvider() {
 
     override fun getTerminalFontSize(): Float = TERMINAL_FONT_SIZE
 
+    @Suppress("OVERRIDE_DEPRECATION")
+    override fun getDefaultStyle(): TextStyle = TextStyle(
+        ShadyTerminalAwtPalette.Cursor.terminalColor(),
+        ShadyTerminalAwtPalette.Background.terminalColor(),
+    )
+
     override fun getDefaultForeground(): TerminalColor = ShadyTerminalAwtPalette.Foreground.terminalColor()
 
     override fun getDefaultBackground(): TerminalColor = ShadyTerminalAwtPalette.Background.terminalColor()
@@ -58,7 +64,8 @@ class ShadyTerminalSettings : DefaultSettingsProvider() {
 
 object ShadyTerminalAwtPalette {
     val Background = java.awt.Color(0x07, 0x11, 0x0C)
-    val Foreground = java.awt.Color(0xD8, 0xE3, 0xE8)
+    val Foreground = java.awt.Color(0xFF, 0xFF, 0xFF)
+    val Cursor = java.awt.Color(0xFF, 0xFF, 0xFF)
     val SelectionBackground = java.awt.Color(0x31, 0x54, 0x49)
     val SelectionForeground = java.awt.Color(0xFF, 0xFF, 0xFF)
     val FoundBackground = java.awt.Color(0xD6, 0xB1, 0x5A)

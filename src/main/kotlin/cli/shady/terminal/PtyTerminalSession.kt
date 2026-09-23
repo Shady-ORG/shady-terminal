@@ -121,7 +121,7 @@ class PtyTerminalSession(
     }
 
     override fun requestFocus() {
-        onEdt { widget.requestFocusInWindow() }
+        onEdt { widget.terminalPanel.requestFocusInWindow() }
     }
 
     override fun addKeyListener(listener: KeyListener) {
